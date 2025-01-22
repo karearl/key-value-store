@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  kvstore:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - kvstore-data:/app/data
+    environment:
+      - GIN_MODE=release
+
+volumes:
+  kvstore-data:

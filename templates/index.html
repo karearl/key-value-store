@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Manager</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700">
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="text-3xl font-bold text-gray-100">🔑 Value .. Thing</h1>
+                <div class="flex gap-2">
+                    <button onclick="app.generateDummy()" class="btn-secondary">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        Generate Dummy
+                    </button>
+                    <button onclick="app.truncateDB()" class="btn-danger">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Truncate DB
+                    </button>
+                    <button onclick="app.showAddModal()" class="btn-primary">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        New Entry
+                    </button>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <input type="text" id="search" placeholder="Search keys or values..." class="search-input">
+            </div>
+
+            <div class="table-container">
+                <table class="w-full">
+                    <table class="w-full">
+                        <colgroup>
+                            <col class="w-[30%]"> <!-- Key column -->
+                            <col class="w-[50%]"> <!-- Value column -->
+                            <col class="w-[20%]"> <!-- Actions column -->
+                        </colgroup>
+                        <thead class="table-header">
+                            <tr>
+                                <th class="sortable" onclick="app.sortBy('key')">
+                                    Key
+                                </th>
+                                <th class="sortable" onclick="app.sortBy('value')">
+                                    Value
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="entries" class="table-body"></tbody>
+                    </table>
+                    <tbody id="entries" class="table-body"></tbody>
+                </table>
+                <div id="loading" class="loading-indicator"></div>
+            </div>
+
+            <div class="mt-4 flex justify-center">
+                <button id="loadMore" onclick="app.loadMore()" class="btn-primary">Load More</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="p-6">
+                <h2 class="modal-title text-gray-100 mb-4 text-xl font-bold" id="modalTitle"></h2>
+                <form id="entryForm" onsubmit="event.preventDefault(); app.handleSubmit(event)">
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Key</label>
+                            <input type="text" id="key" required 
+                                   class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Value</label>
+                            <textarea id="value" required rows="4"
+                                      class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 focus:ring-2 focus:ring-indigo-500"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-actions mt-6">
+                        <button type="button" onclick="app.hideModal()" 
+                                class="btn-secondary px-4 py-2">Cancel</button>
+                        <button type="submit" 
+                                class="btn-primary px-4 py-2 ml-2">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>
