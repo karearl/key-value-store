@@ -179,14 +179,15 @@ const app = {
         }
     },
 
+    // Updated generateDummy method
     async generateDummy() {
-        if (confirm('Generate 1000 dummy entries? This might take a few seconds.')) {
-            const btn = document.querySelector('[onclick="app.generateDummy()"]');
+        if (confirm('Generate 1000 dummy entries?')) {
+            const btn = document.getElementById('generateDummyBtn'); // Use ID
             try {
                 btn.classList.add('btn-loading', 'btn-disabled');
                 await axios.post('/api/entries/generate-dummy');
                 await this.fetchEntries(true);
-                alert('Dummy data generated successfully!');
+                alert('Dummy data generated!');
             } catch (error) {
                 alert(`Error: ${error.response?.data?.error || error.message}`);
             } finally {
@@ -195,14 +196,15 @@ const app = {
         }
     },
 
+    // Updated truncateDB method
     async truncateDB() {
-        if (confirm('WARNING: This will delete ALL entries! Are you sure?')) {
-            const btn = document.querySelector('[onclick="app.truncateDB()"]');
+        if (confirm('WARNING: Delete ALL entries?')) {
+            const btn = document.getElementById('truncateBtn'); // Use ID
             try {
                 btn.classList.add('btn-loading', 'btn-disabled');
                 await axios.post('/api/entries/truncate');
                 await this.fetchEntries(true);
-                alert('Database truncated successfully!');
+                alert('Database truncated!');
             } catch (error) {
                 alert(`Error: ${error.response?.data?.error || error.message}`);
             } finally {
